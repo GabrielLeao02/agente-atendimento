@@ -2,7 +2,8 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
+    // rootDir "." para o typecheck enxergar src/ e tests/; o build usa tsconfig.build.json
+    "rootDir": ".",
     "outDir": "./dist",
 
     // Environment Settings
@@ -30,5 +31,5 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }

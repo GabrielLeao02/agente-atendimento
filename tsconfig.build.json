@@ -1,0 +1,8 @@
+{
+  // Build de produção: compila só o código da aplicação (src/), sem os testes
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src"
+  },
+  "include": ["src"]
+}
