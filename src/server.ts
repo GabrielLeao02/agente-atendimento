@@ -1,7 +1,8 @@
-import { app } from "./app.js";
+import { criarApp } from "./app.js";
 import { logger } from "./logger.js";
 
 const PORT = Number(process.env.PORT ?? 3000);
+const app = criarApp();
 
 // No Express 5, falhas ao abrir a porta (ex.: porta ocupada) chegam como erro neste callback
 app.listen(PORT, (erro) => {
