@@ -6,6 +6,6 @@ dist
 .env
 .dockerignore
 Dockerfile
-docker-compose.yml
+docker-compose*.yml
 README.md
 npm-debug.log*

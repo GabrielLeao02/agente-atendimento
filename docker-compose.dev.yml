@@ -1,0 +1,22 @@
+# Desenvolvimento com reload automático: docker compose -f docker-compose.dev.yml watch
+# Fica num arquivo separado para não subir junto com a API de produção (as duas usam a porta 3000)
+name: agente-atendimento-dev
+
+services:
+  dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+    develop:
+      watch:
+        # Copia para dentro do container cada arquivo salvo no editor; o tsx reinicia a API sozinho
+        - action: sync
+          path: ./src
+          target: /app/src
+        # Mudou dependência: reconstrói a imagem com o npm ci
+        - action: rebuild
+          path: package.json
