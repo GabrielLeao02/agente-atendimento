@@ -11,6 +11,9 @@ services:
       - "3000:3000"
     environment:
       PORT: 3000
+      # Lidas do arquivo .env (nunca versionado); sem chave, a rota /mensagens responde 503
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5-mini}
     develop:
       watch:
         # Copia para dentro do container cada arquivo salvo no editor; o tsx reinicia a API sozinho

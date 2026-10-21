@@ -6,6 +6,7 @@ import {
   pedidoParamsSchema,
   pedidoSchema,
 } from "../schemas/pedido-schemas.js";
+import { mensagemBodySchema, respostaAgenteSchema } from "../schemas/mensagem-schemas.js";
 
 const registry = new OpenAPIRegistry();
 
@@ -51,6 +52,24 @@ registry.registerPath({
       content: { "application/json": { schema: erroNaoCancelavelSchema } },
     },
     500: respostaDeErro("Erro técnico (ERRO_INTERNO)"),
+  },
+});
+
+registry.registerPath({
+  method: "post",
+  path: "/mensagens",
+  tags: ["Agente"],
+  summary: "Envia uma mensagem do cliente ao agente de IA (mock do canal de mensageria)",
+  description:
+    "Simula o webhook de um canal como o WhatsApp. O cliente é identificado pelo header x-cliente-id, vindo do canal, e a conversa é mantida por cliente. O agente interpreta a mensagem, chama as ferramentas da API e responde. Cancelamentos exigem confirmação do cliente numa mensagem seguinte.",
+  request: {
+    headers: clienteHeadersSchema,
+    body: { content: { "application/json": { schema: mensagemBodySchema } } },
+  },
+  responses: {
+    200: { description: "Resposta do agente", content: { "application/json": { schema: respostaAgenteSchema } } },
+    400: respostaDeErro("Entrada inválida (DADOS_INVALIDOS)"),
+    503: respostaDeErro("Agente sem chave da OpenAI configurada (AGENTE_INDISPONIVEL)"),
   },
 });
 
