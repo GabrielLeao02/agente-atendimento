@@ -1,5 +1,11 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
-import { clienteHeadersSchema, erroSchema, pedidoParamsSchema, pedidoSchema } from "../schemas/pedido-schemas.js";
+import {
+  clienteHeadersSchema,
+  erroNaoCancelavelSchema,
+  erroSchema,
+  pedidoParamsSchema,
+  pedidoSchema,
+} from "../schemas/pedido-schemas.js";
 
 const registry = new OpenAPIRegistry();
 
@@ -21,6 +27,29 @@ registry.registerPath({
     200: { description: "Pedido encontrado", content: { "application/json": { schema: pedidoSchema } } },
     400: respostaDeErro("Entrada inválida (DADOS_INVALIDOS)"),
     404: respostaDeErro("Pedido não encontrado ou de outro cliente (PEDIDO_NAO_ENCONTRADO)"),
+    500: respostaDeErro("Erro técnico (ERRO_INTERNO)"),
+  },
+});
+
+registry.registerPath({
+  method: "post",
+  path: "/pedidos/{pedidoId}/cancelamento",
+  tags: ["Pedidos"],
+  summary: "Solicita o cancelamento de um pedido",
+  description:
+    "Cancela o pedido somente se ele pertencer ao cliente e ainda estiver em processamento. Pedidos enviados, entregues ou já cancelados respondem 409 com o status atual.",
+  request: {
+    params: pedidoParamsSchema,
+    headers: clienteHeadersSchema,
+  },
+  responses: {
+    200: { description: "Pedido cancelado", content: { "application/json": { schema: pedidoSchema } } },
+    400: respostaDeErro("Entrada inválida (DADOS_INVALIDOS)"),
+    404: respostaDeErro("Pedido não encontrado ou de outro cliente (PEDIDO_NAO_ENCONTRADO)"),
+    409: {
+      description: "Pedido não pode ser cancelado (PEDIDO_NAO_CANCELAVEL)",
+      content: { "application/json": { schema: erroNaoCancelavelSchema } },
+    },
     500: respostaDeErro("Erro técnico (ERRO_INTERNO)"),
   },
 });
