@@ -15,4 +15,13 @@ export class PedidoController {
 
     res.status(200).json(pedido);
   };
+
+  cancelar = async (req: Request, res: Response) => {
+    const { pedidoId } = pedidoParamsSchema.parse(req.params);
+    const { "x-cliente-id": clienteId } = clienteHeadersSchema.parse(req.headers);
+
+    const pedido = await this.pedidoService.cancelar(pedidoId, clienteId);
+
+    res.status(200).json(pedido);
+  };
 }

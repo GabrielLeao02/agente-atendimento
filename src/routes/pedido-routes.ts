@@ -5,6 +5,7 @@ export function criarPedidoRoutes(pedidoController: PedidoController): Router {
   const router = Router();
 
   router.get("/:pedidoId", pedidoController.consultar);
+  router.post("/:pedidoId/cancelamento", pedidoController.cancelar);
 
   return router;
 }
