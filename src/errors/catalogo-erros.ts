@@ -10,6 +10,10 @@ export const CATALOGO_ERROS = {
     mensagem: "O pedido não pode ser cancelado porque não está mais em processamento.",
   },
   ERRO_INTERNO: { status: 500, mensagem: "Ocorreu um erro interno. Tente novamente mais tarde." },
+  AGENTE_INDISPONIVEL: {
+    status: 503,
+    mensagem: "O agente de atendimento não está configurado. Defina a variável OPENAI_API_KEY.",
+  },
 } as const satisfies Record<string, { status: number; mensagem: string }>;
 
 export type CodigoErro = keyof typeof CATALOGO_ERROS;
@@ -21,4 +25,6 @@ export const MENSAGENS_VALIDACAO = {
   clienteIdObrigatorio: "O header x-cliente-id é obrigatório.",
   clienteIdFormato: "O header x-cliente-id deve conter de 10 a 15 dígitos.",
   jsonMalformado: "O corpo da requisição não é um JSON válido.",
+  textoObrigatorio: "O campo texto é obrigatório.",
+  textoTamanho: "O campo texto deve ter entre 1 e 1000 caracteres.",
 } as const;

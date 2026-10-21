@@ -41,3 +41,9 @@ export class ErroInternoError extends AppError {
     super("ERRO_INTERNO");
   }
 }
+
+export class AgenteIndisponivelError extends AppError {
+  constructor() {
+    super("AGENTE_INDISPONIVEL");
+  }
+}
