@@ -6,7 +6,8 @@ import type { FakeStoreClient } from "../integrations/fake-store-client.js";
 import { logger, mascararClienteId } from "../logger.js";
 import type { PedidoService } from "../services/pedido-service.js";
 import type { EstadoConversa } from "./conversa-store.js";
-import type { ChamadaFerramenta, DefinicaoFerramenta } from "./tipos.js";
+import type { DefinicaoFerramenta } from "./modelos/modelo-ia.js";
+import type { ChamadaFerramenta } from "./tipos.js";
 
 const pedidoIdSchema = z.string().regex(/^\d+$/).describe("Número do pedido informado pelo cliente (apenas dígitos)");
 

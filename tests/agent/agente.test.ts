@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { Agente, RESPOSTA_FALHA } from "../../src/agent/agente.js";
 import { InMemoryConversaStore } from "../../src/agent/conversa-store.js";
 import { ExecutorFerramentas } from "../../src/agent/ferramentas.js";
-import type { ChamadaFerramenta, MensagemConversa, ModeloIA, RespostaModelo } from "../../src/agent/tipos.js";
+import type { ModeloIA, RespostaModelo } from "../../src/agent/modelos/modelo-ia.js";
+import type { ChamadaFerramenta, MensagemConversa } from "../../src/agent/tipos.js";
 import { FakeStoreClient } from "../../src/integrations/fake-store-client.js";
 import { InMemoryPedidoRepository } from "../../src/repositories/in-memory-pedido-repository.js";
 import { PedidoService } from "../../src/services/pedido-service.js";
@@ -13,6 +14,8 @@ const CLIENTE_B = "5511999990002";
 // Modelo simulado: devolve respostas pré-definidas, na ordem. Permite testar o que o CÓDIGO faz
 // em cada decisão do modelo, inclusive decisões erradas (o modelo "tentando" burlar uma regra)
 class ModeloRoteirizado implements ModeloIA {
+  readonly provedor = "simulado";
+  readonly nome = "roteiro";
   private passo = 0;
 
   constructor(private readonly roteiro: Array<RespostaModelo | Error>) {}

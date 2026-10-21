@@ -6,7 +6,7 @@ import { clienteHeadersSchema } from "../schemas/pedido-schemas.js";
 
 // Mock do canal de mensageria: recebe a mensagem como um webhook de WhatsApp receberia
 export class MensagemController {
-  // Sem chave da OpenAI o agente não existe, mas o resto da API continua funcionando
+  // Sem provedor de IA configurado o agente não existe, mas o resto da API continua funcionando
   constructor(private readonly agente: Agente | undefined) {}
 
   receber = async (req: Request, res: Response) => {

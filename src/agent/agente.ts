@@ -3,7 +3,7 @@ import type { InMemoryConversaStore } from "./conversa-store.js";
 import { DEFINICOES_FERRAMENTAS } from "./ferramentas.js";
 import type { ExecutorFerramentas } from "./ferramentas.js";
 import { INSTRUCOES_AGENTE } from "./instrucoes.js";
-import type { ModeloIA } from "./tipos.js";
+import type { ModeloIA } from "./modelos/modelo-ia.js";
 
 // Limite de idas e vindas entre modelo e ferramentas numa mesma mensagem, contra loops
 const MAX_PASSOS = 6;
@@ -36,7 +36,10 @@ export class Agente {
         if (resposta.tipo === "texto") {
           estado.historico.push({ papel: "agente", texto: resposta.texto });
           this.conversas.limitarHistorico(estado);
-          logger.info({ evento: "resposta_enviada", cliente, turno: estado.turno, passos: passo }, "Resposta do agente enviada");
+          logger.info(
+            { evento: "resposta_enviada", cliente, turno: estado.turno, passos: passo, tamanho: resposta.texto.length },
+            "Resposta do agente enviada",
+          );
           return resposta.texto;
         }
 

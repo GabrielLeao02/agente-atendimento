@@ -1,5 +1,5 @@
 // Formato próprio da conversa, independente do provedor de IA. O adaptador de cada provedor
-// (ex.: OpenAI) traduz deste formato para o dele, então trocar de provedor não muda o agente.
+// (em modelos/) traduz deste formato para o dele, então trocar de provedor não muda o agente.
 
 export interface ChamadaFerramenta {
   id: string;
@@ -12,15 +12,3 @@ export type MensagemConversa =
   | { papel: "agente"; texto: string }
   | { papel: "agente"; chamadas: ChamadaFerramenta[] }
   | { papel: "ferramenta"; chamadaId: string; resultado: unknown };
-
-export type RespostaModelo = { tipo: "texto"; texto: string } | { tipo: "ferramentas"; chamadas: ChamadaFerramenta[] };
-
-export interface DefinicaoFerramenta {
-  nome: string;
-  descricao: string;
-  parametros: Record<string, unknown>; // JSON Schema dos argumentos
-}
-
-export interface ModeloIA {
-  gerar(instrucoes: string, historico: MensagemConversa[], ferramentas: DefinicaoFerramenta[]): Promise<RespostaModelo>;
-}

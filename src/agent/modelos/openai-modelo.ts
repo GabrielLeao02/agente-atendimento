@@ -1,20 +1,29 @@
-import OpenAI from "openai";
+import type OpenAI from "openai";
 import type { ChatCompletionMessageParam, ChatCompletionTool } from "openai/resources/chat/completions";
-import type { DefinicaoFerramenta, MensagemConversa, ModeloIA, RespostaModelo } from "./tipos.js";
+import type { MensagemConversa } from "../tipos.js";
+import type { DefinicaoFerramenta, ModeloIA, RespostaModelo } from "./modelo-ia.js";
 
-// Adaptador da OpenAI: traduz a conversa do nosso formato para o da API de chat completions
+// Implementação da OpenAI: traduz a conversa do nosso formato para o da API de chat completions
 export class OpenAIModelo implements ModeloIA {
+  readonly provedor = "openai";
+
   constructor(
     private readonly cliente: OpenAI,
-    private readonly modelo: string,
+    readonly nome: string,
   ) {}
 
   async gerar(instrucoes: string, historico: MensagemConversa[], ferramentas: DefinicaoFerramenta[]): Promise<RespostaModelo> {
     const resposta = await this.cliente.chat.completions.create({
-      model: this.modelo,
+      model: this.nome,
       messages: [{ role: "developer", content: instrucoes }, ...historico.map(paraMensagemOpenAI)],
       tools: ferramentas.map(paraFerramentaOpenAI),
     });
+
+    const metadados = {
+      tokensEntrada: resposta.usage?.prompt_tokens,
+      tokensSaida: resposta.usage?.completion_tokens,
+      requestId: resposta._request_id ?? undefined,
+    };
 
     const mensagem = resposta.choices[0]?.message;
     if (!mensagem) {
@@ -26,14 +35,14 @@ export class OpenAIModelo implements ModeloIA {
     );
 
     if (chamadas.length > 0) {
-      return { tipo: "ferramentas", chamadas };
+      return { tipo: "ferramentas", chamadas, metadados };
     }
 
     if (!mensagem.content) {
       throw new Error("Resposta da OpenAI sem texto nem chamadas de ferramenta");
     }
 
-    return { tipo: "texto", texto: mensagem.content };
+    return { tipo: "texto", texto: mensagem.content, metadados };
   }
 }
 

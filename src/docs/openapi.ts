@@ -69,7 +69,7 @@ registry.registerPath({
   responses: {
     200: { description: "Resposta do agente", content: { "application/json": { schema: respostaAgenteSchema } } },
     400: respostaDeErro("Entrada inválida (DADOS_INVALIDOS)"),
-    503: respostaDeErro("Agente sem chave da OpenAI configurada (AGENTE_INDISPONIVEL)"),
+    503: respostaDeErro("Agente sem provedor de IA configurado (AGENTE_INDISPONIVEL)"),
   },
 });
 

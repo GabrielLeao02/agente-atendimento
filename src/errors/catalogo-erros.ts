@@ -12,7 +12,7 @@ export const CATALOGO_ERROS = {
   ERRO_INTERNO: { status: 500, mensagem: "Ocorreu um erro interno. Tente novamente mais tarde." },
   AGENTE_INDISPONIVEL: {
     status: 503,
-    mensagem: "O agente de atendimento não está configurado. Defina a variável OPENAI_API_KEY.",
+    mensagem: "O agente de atendimento não está configurado. Defina o provedor de IA e a chave dele no .env.",
   },
 } as const satisfies Record<string, { status: number; mensagem: string }>;
 
