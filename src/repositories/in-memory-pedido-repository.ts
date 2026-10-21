@@ -1,4 +1,4 @@
-import type { Pedido } from "../domain/pedido.js";
+import type { Pedido, StatusPedido } from "../domain/pedido.js";
 import type { PedidoRepository } from "./pedido-repository.js";
 
 const CLIENTE_A = "5511999990001";
@@ -74,5 +74,18 @@ export class InMemoryPedidoRepository implements PedidoRepository {
 
     // Devolve uma cópia para que quem recebe não altere o "banco" sem querer
     return pedido ? structuredClone(pedido) : undefined;
+  }
+
+  async atualizarStatus(id: string, status: StatusPedido): Promise<Pedido | undefined> {
+    const pedido = this.pedidos.get(id);
+
+    if (!pedido) {
+      return undefined;
+    }
+
+    pedido.status = status;
+    pedido.atualizadoEm = new Date().toISOString();
+
+    return structuredClone(pedido);
   }
 }

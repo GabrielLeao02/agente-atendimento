@@ -17,7 +17,9 @@ export function errorHandler(erro: unknown, req: Request, res: Response, _next: 
   }
 
   if (erroTratado instanceof AppError) {
-    res.status(erroTratado.status).json({ codigo: erroTratado.codigo, mensagem: erroTratado.message });
+    res
+      .status(erroTratado.status)
+      .json({ codigo: erroTratado.codigo, mensagem: erroTratado.message, ...erroTratado.detalhes });
     return;
   }
 
