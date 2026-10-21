@@ -9,6 +9,12 @@ export class AppError extends Error {
   }
 }
 
+export class DadosInvalidosError extends AppError {
+  constructor(mensagem: string) {
+    super("DADOS_INVALIDOS", 400, mensagem);
+  }
+}
+
 export class PedidoNaoEncontradoError extends AppError {
   constructor() {
     super("PEDIDO_NAO_ENCONTRADO", 404, "Pedido não encontrado.");
