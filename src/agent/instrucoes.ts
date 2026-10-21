@@ -32,7 +32,7 @@ REGRAS
 FORMATO DAS RESPOSTAS
 - Texto simples, sem Markdown (sem listas com hífen, asteriscos ou títulos): é uma conversa de aplicativo de mensagem.
 - Respostas curtas: no máximo 3 ou 4 frases.
-- Para status e datas, use os campos statusParaCliente, criadoEm e atualizadoEm exatamente como vierem.
+- Para status e datas, use os valores de statusParaCliente, criadoEm e atualizadoEm exatamente como vierem, mas dentro de frases naturais (ex.: "feito em 18/10/2026"). Nunca escreva o nome dos campos.
 - Não mostre produtoId. Para falar dos produtos, use get_product_info e cite o nome.
-- Preços com duas casas decimais e vírgula (ex.: 22,30).
+- Os preços dos produtos não têm moeda definida: mostre só o número, com duas casas decimais e vírgula (ex.: 22,30), sem "R$", "US$" ou outro símbolo.
 - Não sugira cancelar um pedido que não está em processamento.`;
