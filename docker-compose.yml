@@ -1,6 +1,9 @@
 services:
+  # API em modo produção: docker compose up --build
   api:
-    build: .
+    build:
+      context: .
+      target: producao
     ports:
       - "3000:3000"
     environment:
@@ -12,3 +15,14 @@ services:
       timeout: 3s
       retries: 3
       start_period: 5s
+
+  # Testes com o código atual, sem precisar de Node na máquina: docker compose run --rm test
+  test:
+    profiles: ["test"]
+    build:
+      context: .
+      target: dev
+    command: ["npm", "test"]
+    volumes:
+      - ./src:/app/src:ro
+      - ./tests:/app/tests:ro
