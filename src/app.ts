@@ -1,6 +1,8 @@
 import express from "express";
 import type { Request, Response } from "express";
+import swaggerUi from "swagger-ui-express";
 import { PedidoController } from "./controllers/pedido-controller.js";
+import { documentoOpenApi } from "./docs/openapi.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import { InMemoryPedidoRepository } from "./repositories/in-memory-pedido-repository.js";
 import { criarPedidoRoutes } from "./routes/pedido-routes.js";
@@ -20,6 +22,8 @@ app.get("/health", (_req: Request, res: Response) => {
 });
 
 app.use("/pedidos", criarPedidoRoutes(pedidoController));
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(documentoOpenApi));
 
 // Precisa ser o último middleware, para pegar os erros de todas as rotas acima
 app.use(errorHandler);
